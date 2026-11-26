@@ -38,7 +38,7 @@ const RELAY_TOOLS = [
   {
     name: 'muse_send_chat',
     description:
-      'Send a chat message to Muse. The message is queued for Muse, who replies within a few minutes. Use muse_check_reply with the returned message_id to fetch the reply.',
+      'Send a chat message to Muse. The message is queued for Muse, who replies within a few minutes. After sending, keep calling muse_check_reply with the returned message_id until it returns "replied" — a "waiting" result only means the reply is not ready yet, not that there is no reply. Check again after a short wait, and do not tell the user there is no reply until you have checked for at least 10 minutes.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -53,7 +53,7 @@ const RELAY_TOOLS = [
   {
     name: 'muse_check_reply',
     description:
-      'Check whether Muse has replied to a message sent with muse_send_chat.',
+      'Check whether Muse has replied to a message sent with muse_send_chat. If the result is "waiting", the reply is not ready yet — wait a short while and call again. Keep checking until the result is "replied".',
     inputSchema: {
       type: 'object',
       properties: {
@@ -230,7 +230,7 @@ async function handleRelayCall(req, res, rpc, clientId) {
     send({
       status: 'queued',
       message_id: record.id,
-      note: 'Muse will reply within a few minutes. Poll muse_check_reply with this message_id.',
+      note: 'Muse will reply within a few minutes. Call muse_check_reply with this message_id again after a short wait, and keep checking until it returns "replied". A "waiting" result means the reply is not ready yet — it does not mean there is no reply.',
     });
     return;
   }
