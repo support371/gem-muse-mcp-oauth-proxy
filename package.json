@@ -1,0 +1,1 @@
+{"description":"OAuth 2.1 proxy in front of the GEM Muse MCP Bridge so ChatGPT can connect with OAuth.","engines":{"node":">=22"},"name":"gem-muse-mcp-oauth-proxy","private":true,"type":"module","version":"0.1.0"}
