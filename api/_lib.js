@@ -16,6 +16,10 @@ export function getAdminPassword() {
   return process.env.OAUTH_ADMIN_PASSWORD || '';
 }
 
+export function getRelaySecret() {
+  return process.env.RELAY_SECRET || '';
+}
+
 // Origin of this proxy, derived from the incoming request. Never hardcoded.
 export function getOrigin(req) {
   const proto =
